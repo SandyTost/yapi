@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tea Break</title>
+  <link rel="icon" href="../assets/images/Anna.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    #mobile-menu {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #mobile-menu.hidden {
+      transform: translateY(-100%);
+    }
+
+    #mobile-menu.is-active {
+      transform: translateY(0);
+    }
+  </style>
+
+<body class="bg-gray-100 font-montserrat">
+
+    <header class="sticky top-0 bg-white shadow py-4 relative z-10">
+        <div class="container mx-auto px-8 mt-2 mb-2">
+            <nav class="flex items-center justify-between">
+    
+                <div>
+                    <a href="index.html">
+                        <img src="../assets/images/logo.png" alt="Логотип" class="h-4">
+                    </a>
+                </div>
+    
+                <!-- Централизованное меню -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center justify-center">
+                  <div class="flex items-center space-x-4">
+                    <a href="catalog.html" class="text-black hover:text-gray-700">Каталог</a>
+                    <a href="news.html" class="text-black hover:text-gray-700">Новости</a>
+                    <a href="about2.html" class="text-black hover:text-gray-700">О нас</a>
+                    <a href="contacts.html" class="text-black hover:text-gray-700">Контакты</a>
+                  </div>
+                </div>
+    
+                <!-- Иконки -->
+                <div class="hidden md:flex items-center space-x-5">
+                  <a href="basket.html" class="text-black text-2xl hover:text-gray-700"><i class="fas fa-shopping-cart"></i></a>
+                  <a href="account.html" class="text-black text-2xl hover:text-gray-700"><i class="fas fa-user"></i></a>
+                </div>
+    
+                <!-- Кнопка меню -->
+                <button id="menu-toggle" class="md:hidden text-black focus:outline-none relative ">
+                    <i class="fas fa-bars"></i>
+                </button>
+    
+            </nav>
+        </div>
+    
+        <!-- Мобильное меню (скрыто) -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-8 transform translate-y-[-100%] transition-transform duration-300 ease-in-out absolute top-full left-0 w-full z-10">
+            <div class="flex flex-col items-center space-y-2">
+                <a href="catalog.html" class="text-black hover:text-gray-700">Каталог</a>
+                <a href="news.html" class="text-black hover:text-gray-700">Новости</a>
+                <a href="about2.html" class="text-black hover:text-gray-700">О нас</a>
+                <a href="contacts.html" class="text-black hover:text-gray-700">Контакты</a>
+    
+                <!-- Иконки в мобильном меню -->
+                <div class="flex items-center space-x-4 mt-2">
+                  <a href="basket.html" class="text-black hover:text-gray-700"><i class="fas fa-shopping-cart"></i></a>
+                  <a href="account.html" class="text-black hover:text-gray-700"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 p-4">  
+      <div class="w-full p-4 flex items-center justify-between"> 
+        <a href="index.html"
+           class="inline-flex items-center px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300">
+            <svg class="-ml-1 mr-2 h-5 w-5 text-white"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            Вернуться на главную
+        </a>
+          <h1 class="text-3xl font-semibold"> Каталог </h1>  
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row">  
+          <div class="w-full md:w-1/4 px-4"> 
+
+              <div class="bg-white rounded-lg shadow p-4">
+                    <!-- Поиск товаров -->
+                    <div class="mb-4">
+                      <h3 class="text-lg font-semibold mb-2 pb-1 border-b-2 border-black">Поиск товаров</h3>
+                      <input type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 text-sm" placeholder="Название или описание">
+                  </div>
+                  <!-- Фильтр "Тип чая" -->
+                  <div class="mb-4">
+                      <h3 class="text-lg font-semibold mb-2 pb-1 border-b-2 border-black">Тип чая</h3>
+                      <label class="block text-sm"> 
+                          <input type="radio" name="tea-type" class="mr-2 rounded-full"> Зеленый чай
+                      </label>
+                      <label class="block text-sm">  
+                          <input type="radio" name="tea-type" class="mr-2 rounded-full"> Черный чай
+                      </label>
+                      <label class="block text-sm"> 
+                          <input type="radio" name="tea-type" class="mr-2 rounded-full"> Белый чай
+                      </label>
+                      <label class="block text-sm"> 
+                          <input type="radio" name="tea-type" class="mr-2 rounded-full"> Фруктовый чай
+                      </label>
+                  </div>
+                  <!-- Фильтр "Регион происхождения" -->
+                  <div class="mb-4">
+                      <h3 class="text-lg font-semibold mb-2 pb-1 border-b-2 border-black">Регион происхождения</h3>
+                      <label class="block text-sm"> 
+                          <input type="radio" name="origin" class="mr-2 rounded-full"> Китай
+                      </label>
+                      <label class="block text-sm">  
+                          <input type="radio" name="origin" class="mr-2 rounded-full"> Индия
+                      </label>
+                      <label class="block text-sm">  
+                          <input type="radio" name="origin" class="mr-2 rounded-full"> Япония
+                      </label>
+                      <label class="block text-sm"> 
+                          <input type="radio" name="origin" class="mr-2 rounded-full"> Тайвань
+                      </label>
+                  </div>
+                  <!-- Фильтр "Сорт" -->
+                  <div class="mb-4">
+                      <h3 class="text-lg font-semibold mb-2 pb-1 border-b-2 border-black">Сорт</h3>
+                      <label class="block text-sm">
+                          <input type="radio" name="sort" class="mr-2 rounded-full"> Ассам
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="sort" class="mr-2 rounded-full"> Дарджилинг
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="sort" class="mr-2 rounded-full"> Сенча
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="sort" class="mr-2 rounded-full"> Лун Цзин (Колодец Дракона)
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="sort" class="mr-2 rounded-full"> Пуэр
+                      </label>
+                  </div>
+                  <!-- Фильтр "Степень ферментации" -->
+                    <div class="mb-4">
+                      <h3 class="text-lg font-semibold mb-2 pb-1 border-b-2 border-black">Степень ферментации</h3>
+                      <label class="block">
+                          <input type="radio" name="fermentation" class="mr-2 rounded-full"> Неферментированный
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="fermentation" class="mr-2 rounded-full"> Слабая ферментация
+                      </label>
+                      <label class="block">
+                         <input type="radio" name="fermentation" class="mr-2 rounded-full"> Средняя ферментация
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="fermentation" class="mr-2 rounded-full"> Сильная ферментация
+                      </label>
+                      <label class="block">
+                          <input type="radio" name="fermentation" class="mr-2 rounded-full"> Полностью ферментированный
+                      </label>
+                    </div>
+                    <!-- Фильтр "Цена" -->
+                    <div>
+                      <h3 class="text-lg font-semibold mb-2 pb-1 border-b-2 border-black">Цена</h3>
+                      <div class="flex items-center">
+                        <label for="min-price" class="mr-2">От:</label>
+                        <input type="number" id="min-price" class="w-20 border rounded px-2 py-1 text-sm" placeholder="0">
+                        <label for="max-price" class="mx-2">До:</label>
+                        <input type="number" id="max-price" class="w-20 border rounded px-2 py-1 text-sm" placeholder="1000">
+                      </div>
+                      <button class="bg-green-700 hover:bg-green-800 text-white py-2 px-4 rounded w-full mt-5"> Применить</button>
+                    </div>
+              </div>
+          </div>
+
+          
+          
+          <div class="w-full md:w-3/4 px-4">
+              <!-- Карточки товаров -->
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <!-- карточка 1 -->
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <img src="../assets/images/tea2.png" alt="Зеленый чай" class="w-full object-contain mx-auto">
+                    <h3 class="text-lg font-semibold text-center">Зеленый чай "Лун Цзин"</h3>  
+                    <p class="text-gray-600 text-center">Высококачественный зеленый чай из провинции Чжэцзян.</p> 
+                    <p class="text-green-600 font-bold text-center mt-1 ">500 рублей</p> 
+                    <a href="tovar.html"
+                     class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mt-3 mb-3 w-full">
+                     Купить
+                     </a>
+                </div>
+                  <!-- карточка 2 -->
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <img src="../assets/images/tea2.png" alt="Зеленый чай" class="w-full object-contain mx-auto">
+                    <h3 class="text-lg font-semibold text-center">Зеленый чай "Лун Цзин"</h3> 
+                    <p class="text-gray-600 text-center">Высококачественный зеленый чай из провинции Чжэцзян.</p>
+                    <p class="text-green-600 font-bold text-center mt-1 ">500 рублей</p> 
+                    <a href="tovar.html"
+                     class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mt-3 mb-3 w-full">
+                     Купить
+                     </a>
+                </div>
+                  <!-- карточка 3 -->
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <img src="../assets/images/tea2.png" alt="Зеленый чай" class="w-full object-contain mx-auto">
+                    <h3 class="text-lg font-semibold text-center">Зеленый чай "Лун Цзин"</h3>
+                    <p class="text-gray-600 text-center">Высококачественный зеленый чай из провинции Чжэцзян.</p> 
+                    <p class="text-green-600 font-bold text-center mt-1 ">500 рублей</p>
+                    <a href="tovar.html"
+                     class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mt-3 mb-3 w-full">
+                     Купить
+                     </a>
+                </div>
+                  <!-- карточка 4 --> 
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <img src="../assets/images/tea2.png" alt="Зеленый чай" class="w-full object-contain mx-auto">
+                    <h3 class="text-lg font-semibold text-center">Зеленый чай "Лун Цзин"</h3> 
+                    <p class="text-gray-600 text-center">Высококачественный зеленый чай из провинции Чжэцзян.</p>
+                    <p class="text-green-600 font-bold text-center mt-1">500 рублей</p>
+                    <a href="tovar.html"
+                     class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mt-3 mb-3 w-full">
+                     Купить
+                     </a>
+                </div>
+                  <!-- карточка 5 -->
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <img src="../assets/images/tea2.png" alt="Зеленый чай" class="w-full object-contain mx-auto">
+                    <h3 class="text-lg font-semibold text-center">Зеленый чай "Лун Цзин"</h3> 
+                    <p class="text-gray-600 text-center">Высококачественный зеленый чай из провинции Чжэцзян.</p>
+                    <p class="text-green-600 font-bold text-center mt-1 ">500 рублей</p>
+                    <a href="tovar.html"
+                     class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mt-3 mb-3 w-full">
+                     Купить
+                     </a>
+                </div>
+                  <!-- карточка 6 -->
+                  <div class="bg-white rounded-lg shadow p-4">
+                    <img src="../assets/images/tea2.png" alt="Зеленый чай" class="w-full object-contain mx-auto">
+                    <h3 class="text-lg font-semibold text-center">Зеленый чай "Лун Цзин"</h3>  
+                    <p class="text-gray-600 text-center">Высококачественный зеленый чай из провинции Чжэцзян.</p> 
+                    <p class="text-green-600 font-bold text-center mt-1 ">500 рублей</p>
+                    <a href="tovar.html"
+                     class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 mt-3 mb-3 w-full">
+                     Купить
+                     </a>
+                </div>
+              </div>
+          
+              <!-- Пагинация -->
+              <div class="mt-6 flex justify-center">
+                  <div class="inline-flex space-x-2">
+                      <a href="#" class="w-8 h-8 bg-gray-200 hover:bg-green-700 text-gray-700 hover:text-white rounded-full flex items-center justify-center">1</a>
+                      <a href="#" class="w-8 h-8 bg-gray-200 hover:bg-green-700 text-gray-700 hover:text-white rounded-full flex items-center justify-center">2</a>
+                      <a href="#" class="w-8 h-8 bg-gray-200 hover:bg-green-700 text-gray-700 hover:text-white rounded-full flex items-center justify-center">3</a>
+                      <a href="#" class="w-8 h-8 bg-gray-200 hover:bg-green-700 text-gray-700 hover:text-white rounded-full flex items-center justify-center">...</a>
+                      <a href="#" class="w-8 h-8 bg-gray-200 hover:bg-green-700 text-gray-700 hover:text-white rounded-full flex items-center justify-center">10</a>
+                  </div>
+              </div>
+          </div>
+
+        </div>
+  </div>
+
+  <footer class="bg-white py-6 mt-6 border-t border-gray-200 font-montserrat relative">
+    <div class="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+  
+      <!-- Левая сторона: Копирайт и Политика -->
+      <div class="text-black text-sm mb-4 md:mb-0">
+        &copy; 2025 Все права защищены<br>
+        <a href="#" class="hover:underline">Политика конфиденциальности</a>
+      </div>
+  
+      <!-- Центр: Контактная информация (адаптивное позиционирование) -->
+      <div class="text-black text-sm text-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2 mt-4 md:mt-0">
+        +7 999 999-99-99,<br>
+        <a href="mailto:OnlyGames228@gmail.com" class="hover:underline">OnlyGames228@gmail.com</a>
+      </div>
+  
+      <!-- Правая сторона: Социальные сети -->
+      <div class="flex items-center space-x-4 mt-4 md:mt-0">
+        <a href="#" class="text-gray-500 hover:text-gray-700">
+          <img src="../assets/images/Instagram.png" alt="Instagram" class="h-9">
+        </a>
+        <a href="#" class="text-gray-500 hover:text-gray-700">
+          <img src="../assets/images/Telegram.png" alt="Telegram" class="h-8">
+        </a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Изначально скрываем меню
+    mobileMenu.classList.add('hidden');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+    });
+</script>
+</body>
+</html>

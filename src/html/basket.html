@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tea Break</title>
+  <link rel="icon" href="../assets/images/Anna.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    #mobile-menu {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    #mobile-menu.hidden {
+      transform: translateY(-100%);
+    }
+
+    #mobile-menu.is-active {
+      transform: translateY(0);
+    }
+  </style>
+
+<body class="flex flex-col min-h-screen bg-gray-100 font-montserrat">
+
+    <header class="sticky top-0 bg-white shadow py-4 relative z-10">
+        <div class="container mx-auto px-8 mt-2 mb-2">
+            <nav class="flex items-center justify-between">
+    
+                <div>
+                    <a href="index.html">
+                        <img src="../assets/images/logo.png" alt="Логотип" class="h-4">
+                    </a>
+                </div>
+    
+                <!-- Централизованное меню (скрыто на мобильных) -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center justify-center">
+                  <div class="flex items-center space-x-4">
+                    <a href="catalog.html" class="text-black hover:text-gray-700">Каталог</a>
+                    <a href="news.html" class="text-black hover:text-gray-700">Новости</a>
+                    <a href="about2.html" class="text-black hover:text-gray-700">О нас</a>
+                    <a href="contacts.html" class="text-black hover:text-gray-700">Контакты</a>
+                  </div>
+                </div>
+    
+                <!-- Иконки, скрытые на мобильных устройствах -->
+                <div class="hidden md:flex items-center space-x-5">
+                  <a href="basket.html" class="text-black text-2xl hover:text-gray-700"><i class="fas fa-shopping-cart"></i></a>
+                  <a href="account.html" class="text-black text-2xl hover:text-gray-700"><i class="fas fa-user"></i></a>
+                </div>
+    
+                <!-- Кнопка меню (отображается только на мобильных) -->
+                <button id="menu-toggle" class="md:hidden text-black focus:outline-none relative ">
+                    <i class="fas fa-bars"></i>
+                </button>
+    
+            </nav>
+        </div>
+    
+        <!-- Мобильное меню (изначально скрыто) -->
+        <div id="mobile-menu" class="md:hidden bg-white py-2 px-8 transform translate-y-[-100%] transition-transform duration-300 ease-in-out absolute top-full left-0 w-full z-10">
+            <div class="flex flex-col items-center space-y-2">
+                <a href="catalog.html" class="text-black hover:text-gray-700">Каталог</a>
+                <a href="news.html" class="text-black hover:text-gray-700">Новости</a>
+                <a href="about2.html" class="text-black hover:text-gray-700">О нас</a>
+                <a href="contacts.html" class="text-black hover:text-gray-700">Контакты</a>
+    
+                <!-- Иконки в мобильном меню -->
+                <div class="flex items-center space-x-4 mt-2">
+                  <a href="basket.html" class="text-black hover:text-gray-700"><i class="fas fa-shopping-cart"></i></a>
+                  <a href="account.html" class="text-black hover:text-gray-700"><i class="fas fa-user"></i></a>
+                </div>
+            </div>
+        </div>
+    
+    </header>
+
+    <div class="container mx-auto px-4 p-4 flex-grow"> 
+        <div class="w-full p-4 flex items-center justify-between"> 
+          <a href="catalog.html"
+             class="inline-flex items-center px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300">
+              <svg class="-ml-1 mr-2 h-5 w-5 text-white"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+              </svg>
+              Вернуться в каталог
+          </a>
+            <h1 class="text-3xl font-semibold"> Корзина </h1> 
+        </div>
+      </div>
+
+  <main class="container mx-auto px-8">
+
+        <!-- Блок с товарами -->
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <ul class="divide-y divide-gray-200">
+
+                <!-- Пример товара 1 -->
+                <li class="py-4 px-6 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img src="../assets/images/tovar1.png" alt="Чай Золотой Дракон"
+                             class="w-20 h-20 rounded-lg mr-4 object-cover">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Чай Золотой Дракон</h3>
+                            <p class="text-gray-600">500 руб.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" value="1" min="1"
+                               class="w-16 text-center py-2 px-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="text-red-500 hover:text-red-700 focus:outline-none ml-4">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <!-- Пример товара 2 -->
+                <li class="py-4 px-6 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img src="../assets/images/tovar1.png" alt="Чай Молочный Улун"
+                             class="w-20 h-20 rounded-lg mr-4 object-cover">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Чай Молочный Улун</h3>
+                            <p class="text-gray-600">600 руб.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" value="2" min="1"
+                               class="w-16 text-center py-2 px-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="text-red-500 hover:text-red-700 focus:outline-none ml-4">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <!-- Пример товара 3 -->
+                <li class="py-4 px-6 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img src="../assets/images/tovar1.png" alt="Чайный набор 'Восточный'"
+                             class="w-20 h-20 rounded-lg mr-4 object-cover">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Чайный набор 'Восточный'</h3>
+                            <p class="text-gray-600">1200 руб.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" value="1" min="1"
+                               class="w-16 text-center py-2 px-3 rounded-lg border border-gray-300 focus:outline-none focus:border-green-500">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="text-red-500 hover:text-red-700 focus:outline-none ml-4">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+        <div><!-- Итоги корзины и кнопка оформления заказа -->
+          <div class="mt-8 flex items-center justify-between md:justify-end flex-wrap">
+      
+              <!-- Итоги корзины -->
+              <div class="flex items-center mb-2 md:mb-0 mr-4 baseline">
+                  <span class="text-2xl text-gray-700 font-bold">Итого:</span>
+                  <span class="text-2xl font-bold text-gray-800 ml-2">2900 руб.</span>
+              </div>
+      
+              <!-- Кнопка -->
+              <a href="checkout.html"
+              class="inline-block bg-green-700 hover:bg-green-800 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200">
+               Оформить заказ
+           </a>
+      
+          </div>
+      </div>
+</main>
+
+
+<footer class="bg-white py-6 mt-12 border-t border-gray-200 font-montserrat relative">
+    <div class="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+  
+      <!-- Левая сторона: Копирайт и Политика -->
+      <div class="text-black text-sm mb-4 md:mb-0">
+        &copy; 2025 Все права защищены<br>
+        <a href="#" class="hover:underline">Политика конфиденциальности</a>
+      </div>
+  
+      <!-- Центр: Контактная информация (адаптивное позиционирование) -->
+      <div class="text-black text-sm text-center md:absolute md:left-1/2 md:transform md:-translate-x-1/2 mt-4 md:mt-0">
+        +7 999 999-99-99,<br>
+        <a href="mailto:OnlyGames228@gmail.com" class="hover:underline">OnlyGames228@gmail.com</a>
+      </div>
+  
+      <!-- Правая сторона: Социальные сети -->
+      <div class="flex items-center space-x-4 mt-4 md:mt-0">
+        <a href="#" class="text-gray-500 hover:text-gray-700">
+          <img src="../assets/images/Instagram.png" alt="Instagram" class="h-9">
+
+        </a>
+        <a href="#" class="text-gray-500 hover:text-gray-700">
+          <img src="../assets/images/Telegram.png" alt="Telegram" class="h-8">
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Изначально скрываем меню
+    mobileMenu.classList.add('hidden');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+    });
+</script>
+
+</body>
+</html>
