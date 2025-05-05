@@ -1,13 +1,21 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./*.html"],
-  theme: {
-    extend: {
-      fontFamily: {
-        'abeezee': ['ABeeZee', 'sans-serif'], // Если у тебя уже был этот шрифт
-        'bakbak-one': ['Bakbak One', 'cursive'], // Добавляем шрифт Bakbak One
-      },
+export default {
+    content: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+    ],
+
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
-  },
-  plugins: [],
-}
+
+    plugins: [forms],
+};

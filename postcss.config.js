@@ -1,13 +1,6 @@
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {
-      overrideBrowserslist: [
-        ">0.2%",
-        "not dead",
-        "last 2 versions",
-        "Firefox ESR",
-      ],
+export default {
+    plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
     },
-  },
 };
