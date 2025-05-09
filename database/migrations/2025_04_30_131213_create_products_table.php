@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->text('description');
             $table->string('image', 100);
-            $table->integer('price');
+            $table->decimal('price', 8, 2);
             $table->foreignId('tea_type_id')->constrained()->onDelete('cascade');
             $table->foreignId('origin_region_id')->constrained()->onDelete('cascade');
             $table->foreignId('tea_variety_id')->constrained()->onDelete('cascade');

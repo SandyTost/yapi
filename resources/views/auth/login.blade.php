@@ -4,6 +4,11 @@
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 font-playfair text-center">Вход</h2>
     <form action="{{ route('login') }}" method="POST" class="space-y-6">
         @csrf
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
         <div>
             <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
             <input type="email" id="email" name="email"
@@ -23,20 +28,10 @@
                 Войти
             </button>
         </div>
-        <!-- Добавили "Запомнить пароль" -->
-        {{-- <div class="flex items-center justify-between">
-            <div class="flex items-center">
-                <input id="remember" type="checkbox" name="remember"
-                    class="h-4 w-4 text-green-600 focus:ring-green-500 rounded">
-                <label for="remember" class="ml-2 block text-sm text-gray-900">Запомнить меня</label>
-            </div>
-            <a href="#" class="text-sm text-green-600 hover:text-green-800">Забыли пароль?</a>
-        </div> --}}
-        <!-- Войти через -->
         <div>
             <p class="text-gray-700">Войти через:</p>
             <div class="flex mt-2">
-                <a href="#"
+                <a href="{{ route('yandex') }}"
                     class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-white shadow-md hover:shadow-lg transition-shadow duration-200">
                     <img src="{{ asset('img/Yandex Logo.png') }}" alt="Яндекс" class="h-6">
                 </a>

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('delivery_addresses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
-            $table->string('street');
-            $table->string('city');
-            $table->string('postal_code');
+            $table->string('street', 100);
+            $table->string('city', 50);
+            $table->string('postal_code', 10);
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->enum('provider', ['mail', 'yandex'])->default('mail');
             $table->string('email')->unique();
-            $table->string('phone', 11)->unique();
+            $table->string('phone', 11)->unique()->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
