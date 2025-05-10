@@ -104,49 +104,21 @@
 
                 <div class="container mx-auto">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                        <!-- Большая карточка -->
-                        <div class="relative md:row-span-2">
-                            <img src="{{ asset('img/woman.jpg') }}" alt="Большой продукт"
-                                class="w-full h-256 object-cover rounded-lg">
-                            <div
-                                class="absolute bottom-0 left-0 p-4 w-full flex justify-between items-center bg-black bg-opacity-50 rounded-bl-lg rounded-br-lg">
-                                <span class="text-white text-1xl font-playfair">Теперь ваш любимый чай в вашем
-                                    городе!</span>
-                                {{-- <a href="news.html">
-                                    <button
-                                        class="py-2 px-5 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 w-full">Подробнее</button>
-                                </a> --}}
+                        @foreach ($randomNews as $item)
+                            <!-- Маленькая карточка 1 -->
+                            <div class="relative">
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="Маленький продукт 1"
+                                    class="w-full h-48 object-cover rounded-lg">
+                                <div
+                                    class="absolute bottom-0 left-0 p-4 w-full flex justify-between items-center bg-black bg-opacity-50 rounded-bl-lg rounded-br-lg">
+                                    <span class="text-white text-1xl font-playfair">{{ $item->title }}</span>
+                                    <a href="{{ route('news') }}">
+                                        <button
+                                            class="py-2 px-5 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 w-full">Подробнее</button>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-
-                        <!-- Маленькая карточка 1 -->
-                        <div class="relative">
-                            <img src="{{ asset('img/char.jpg') }}" alt="Маленький продукт 1"
-                                class="w-full h-48 object-cover rounded-lg">
-                            <div
-                                class="absolute bottom-0 left-0 p-4 w-full flex justify-between items-center bg-black bg-opacity-50 rounded-bl-lg rounded-br-lg">
-                                <span class="text-white text-1xl font-playfair">Со своей чашки вкусней</span>
-                                {{-- <a href="news.html">
-                                    <button
-                                        class="py-2 px-5 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 w-full">Подробнее</button>
-                                </a> --}}
-                            </div>
-                        </div>
-
-                        <!-- Маленькая карточка 2 -->
-                        <div class="relative">
-                            <img src="{{ asset('img/drinking.jpg') }}" alt="Маленький продукт 2"
-                                class="w-full h-48 object-cover rounded-lg">
-                            <div
-                                class="absolute bottom-0 left-0 p-4 w-full flex justify-between items-center bg-black bg-opacity-50 rounded-bl-lg rounded-br-lg">
-                                <span class="text-white text-1xl font-playfair">Весна наступила!</span>
-                                {{-- <a href="news.html">
-                                    <button
-                                        class="py-2 px-5 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 w-full">Подробнее</button>
-                                </a> --}}
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

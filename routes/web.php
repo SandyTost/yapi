@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     OriginRegionController,
     TeaTypeController,
     CartController,
-    OrderController
+    OrderController,
+    NewsController
 };
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,17 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/orders/export', 'export')->middleware(IsAdmin::class)->name('admin.orders.export');
 });
 
+
 Route::middleware(IsAdmin::class)->group(function () {
+
+    Route::controller(NewsController::class)->group(function () {
+        Route::get('/news/create', 'create')->name('news.create');
+        Route::post('/news/store', 'store')->name('news.store');
+        Route::delete('/news/destroy/{news}', 'destroy')->name('news.destroy');
+        Route::get('/news/edit/{news}', 'edit')->name('news.edit');
+        Route::patch('/news/update/{news}', 'update')->name('news.update');
+    });
+
     Route::controller(TeaTypeController::class)->group(function () {
         Route::post('/type','store')->name('type.store');
         Route::delete('/type/{teaType}/destroy', 'destroy')->name('type.destroy');

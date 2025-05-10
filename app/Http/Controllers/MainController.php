@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{TeaType, Product, OriginRegion, TeaVariety, FermentationDegree};
+use App\Models\{TeaType, Product, OriginRegion, TeaVariety, FermentationDegree, News};
 use App\Exports\OrdersExport;
 use App\Exports\OrdersDetailExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -15,14 +15,16 @@ class MainController extends Controller
     {
         // Получаем случайные 4 товара
         $randomProducts = Product::inRandomOrder()->limit(4)->get();
+        $randomNews = News::inRandomOrder()->limit(4)->get();
 
-        return view('index', compact('randomProducts'));
+        return view('index', compact('randomProducts', 'randomNews'));
     }
 
     // Отображение страницы новостей
     public function news()
     {
-        return view('news');
+        $news = News::with('user')->get();
+        return view('news', compact('news'));
     }
 
     // Отображение страницы 'О нас'

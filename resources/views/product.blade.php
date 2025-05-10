@@ -32,26 +32,6 @@
                     <!-- Рейтинг -->
                     <div class="flex items-center justify-between mb-2">
                         <h1 class="text-3xl font-semibold text-gray-800 mb-4 font-playfair">{{ $product->name }}</h1>
-                        @if (Auth::user() && Auth::user()->role == 'admin')
-                            <div class="flex space-x-2">
-                                <a href="#" class="text-red-500 hover:text-red-700">
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15.232 5.232l-4.898 4.898M5.5 17.5l4.898-4.898m0 0l4.898-4.898M14.5 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM3 17.5h2.5M3 12h2.5m13 5h-2.5M18.5 12h-2.5">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a href="#" class="text-red-500 hover:text-red-700">
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg>
-                                </a>
-                            </div>
-                        @endif
                     </div>
 
                     <p class="text-gray-700 text-lg mb-6  text-justify">{{ $product->description }}</p>

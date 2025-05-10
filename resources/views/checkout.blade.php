@@ -27,9 +27,11 @@
                 <div class="bg-white shadow-md rounded-lg p-6 mb-8">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4 font-playfair">Информация о доставке</h2>
                     <div>
-                        <p class="text-gray-700 font-medium mb-2">Имя: Иван Иванов</p>
-                        <p class="text-gray-700 font-medium mb-2">Email: ivan.ivanov@example.com</p>
-                        <p class="text-gray-700 font-medium mb-2">Телефон: +7 999 999-99-99</p>
+                        <p class="text-gray-700 font-medium mb-2">Имя: {{ Auth::user()->name }}</p>
+                        <p class="text-gray-700 font-medium mb-2">Email: {{ Auth::user()->email }}</p>
+                        <p class="text-gray-700 font-medium mb-2">
+                            Телефон: <span id="phone-output">{{ Auth::user()->phone }}</span>
+                        </p>
                     </div>
                     <div class="flex items-center mb-4">
                         <svg class="h-5 w-5 text-gray-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -119,4 +121,19 @@
         </div>
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneOutput = document.getElementById('phone-output');
+            const phoneNumber = phoneOutput.textContent.trim();
+
+            // Форматируем номер, если он в формате 79123456789
+            if (/^[78]\d{10}$/.test(phoneNumber)) {
+                const formattedPhone = phoneNumber.replace(
+                    /^(\d)(\d{3})(\d{3})(\d{2})(\d{2})$/,
+                    '+7 ($2) $3-$4-$5'
+                );
+                phoneOutput.textContent = formattedPhone;
+            }
+        });
+    </script>
 @endsection
