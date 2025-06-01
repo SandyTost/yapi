@@ -18,7 +18,7 @@
             <h1 class="text-3xl font-semibold">Заказ #{{ $order->id }}</h1>
             <div>
                 <button type="button"
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-300 change-status-btn"
+                    class="inline-flex items-center px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 change-status-btn"
                     data-order-id="{{ $order->id }}" data-current-status="{{ $order->status }}">
                     <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">

@@ -4,12 +4,12 @@
     <div class="container mx-auto px-4 p-4">
         <div class="w-full p-4 flex items-center justify-between">
             <a href="{{ route('profile.index') }}"
-                class="inline-flex items-center px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300">
-                <svg class="-ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                    fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd"
-                        d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                        clip-rule="evenodd" />
+                class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-all duration-300">
+   <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+      fill="currentColor" aria-hidden="true">
+      <path fill-rule="evenodd"
+         d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+         clip-rule="evenodd" />
                 </svg>
                 В личный кабинет
             </a>
@@ -135,7 +135,7 @@
                         товар</a>
                     <div class="mt-6 space-y-3">
                         <a href="{{ route('admin.orders') }}"
-                            class="inline-block bg-blue-600 hover:bg-blue-700 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 w-full flex items-center justify-center">
+                            class="inline-block bg-green-700 hover:bg-green-800 text-center text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200 w-full flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -198,7 +198,9 @@
                     @endforeach
                 </div>
             </div>
+            
         </div>
+        <br> <br>
     </div>
 
     <!-- Скрипт для обработки форм -->
@@ -258,5 +260,17 @@
                 window.history.replaceState({}, "", url)
             }
         })
+
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Изначально скрываем меню
+    mobileMenu.classList.add('hidden');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+    });
     </script>
 @endsection

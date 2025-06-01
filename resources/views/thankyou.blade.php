@@ -19,4 +19,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Изначально скрываем меню
+    mobileMenu.classList.add('hidden');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+    });
+    </script>
 @endsection

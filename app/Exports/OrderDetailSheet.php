@@ -35,33 +35,21 @@ class OrderDetailSheet implements
         $this->order = $order;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function collection()
     {
         return $this->order->items;
     }
 
-    /**
-     * @return string
-     */
     public function title(): string
     {
         return 'Заказ #' . $this->order->id;
     }
 
-    /**
-     * @return string
-     */
     public function startCell(): string
     {
         return 'A12';
     }
 
-    /**
-     * @return array
-     */
     public function headings(): array
     {
         return [
@@ -73,10 +61,6 @@ class OrderDetailSheet implements
         ];
     }
 
-    /**
-     * @param mixed $item
-     * @return array
-     */
     public function map($item): array
     {
         return [
@@ -88,9 +72,6 @@ class OrderDetailSheet implements
         ];
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         return [
@@ -99,26 +80,20 @@ class OrderDetailSheet implements
         ];
     }
 
-    /**
-     * @param Worksheet $sheet
-     * @return array
-     */
     public function styles(Worksheet $sheet)
     {
         return [
-            // Стиль для заголовков
             12 => [
                 'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '1B5E20'] // Темно-зеленый цвет
+                    'startColor' => ['rgb' => '1B5E20']
                 ],
                 'alignment' => [
                     'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
                     'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
                 ]
             ],
-            // Стиль для всех ячеек
             'A' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER]],
             'C' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT]],
             'D' => ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER]],
@@ -126,16 +101,13 @@ class OrderDetailSheet implements
         ];
     }
 
-    /**
-     * @return array
-     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function(AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
 
-                // Добавляем заголовок
+                // Заголовок
                 $sheet->mergeCells('A1:E1');
                 $sheet->setCellValue('A1', 'ДЕТАЛИ ЗАКАЗА #' . $this->order->id);
                 $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(16);
@@ -166,32 +138,32 @@ class OrderDetailSheet implements
                 $sheet->setCellValue('A10', 'Телефон:');
                 $sheet->setCellValue('B10', $this->order->user ? $this->order->user->phone : '');
 
-                // Устанавливаем границы для всех ячеек с данными
+                // Границы для данных
                 $lastRow = $sheet->getHighestRow();
-                $lastColumn = $sheet->getHighestColumn();
-
-                $range = 'A12:' . $lastColumn . $lastRow;
+                $range = 'A12:E' . $lastRow;
                 $sheet->getStyle($range)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-                // Добавляем итоговую строку
+                // Итоговая строка
                 $totalRow = $lastRow + 1;
                 $sheet->setCellValue('A' . $totalRow, 'ИТОГО:');
                 $sheet->mergeCells('A' . $totalRow . ':D' . $totalRow);
                 $sheet->getStyle('A' . $totalRow)->getFont()->setBold(true);
                 $sheet->getStyle('A' . $totalRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
 
-                // Суммируем общую сумму
-                $sheet->setCellValue('E' . $totalRow, '=SUM(E13:E' . $lastRow . ')');
+                // Вычисляем сумму в PHP вместо формулы Excel
+                $totalSum = $this->order->items->sum(function($item) {
+                    return $item->price * $item->quantity;
+                });
+                $sheet->setCellValue('E' . $totalRow, $totalSum);
                 $sheet->getStyle('E' . $totalRow)->getFont()->setBold(true);
                 $sheet->getStyle('E' . $totalRow)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1);
-                $sheet->getStyle('E' . $totalRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
 
-                // Выделяем итоговую строку
+                // Стиль итоговой строки
                 $sheet->getStyle('A' . $totalRow . ':E' . $totalRow)->getFill()
                     ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-                    ->getStartColor()->setRGB('E8F5E9'); // Светло-зеленый цвет
+                    ->getStartColor()->setRGB('E8F5E9');
 
-                // Добавляем информацию об адресе доставки
+                // Адрес доставки
                 $addressRow = $totalRow + 2;
                 $sheet->mergeCells('A' . $addressRow . ':E' . $addressRow);
                 $sheet->setCellValue('A' . $addressRow, 'АДРЕС ДОСТАВКИ');
@@ -216,7 +188,7 @@ class OrderDetailSheet implements
                     $sheet->getStyle('A' . $addressRow)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 }
 
-                // Стилизуем ячейки с информацией
+                // Стили для информационных ячеек
                 $sheet->getStyle('A3:A10')->getFont()->setBold(true);
                 $sheet->getStyle('A' . ($totalRow + 3) . ':A' . $addressRow)->getFont()->setBold(true);
             },

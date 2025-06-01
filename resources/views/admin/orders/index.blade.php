@@ -55,7 +55,7 @@
         </div>
 
         <div class="flex justify-end mb-4 space-x-2">
-            <form action="{{ route('admin.orders.export') }}" method="GET">
+            {{-- <form action="{{ route('admin.orders.export') }}" method="GET">
                 <!-- Передаем параметры фильтрации -->
                 @if (request('status'))
                     <input type="hidden" name="status" value="{{ request('status') }}">
@@ -76,7 +76,7 @@
                     </svg>
                     Экспорт в Excel
                 </button>
-            </form>
+            </form> --}}
 
             <form action="{{ route('admin.orders.export') }}" method="GET">
                 <!-- Передаем параметры фильтрации -->
@@ -92,7 +92,7 @@
                 <input type="hidden" name="detailed" value="1">
 
                 <button type="submit"
-                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-300 flex items-center">
+                    class="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -174,7 +174,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
                                         <a href="{{ route('orders.show', $order->id) }}"
-                                            class="text-blue-600 hover:text-blue-900">
+                                            class="text-green-900 hover:text-green-900">
                                             Подробнее
                                         </a>
                                         <button type="button"
@@ -269,5 +269,18 @@
                 }
             });
         });
+
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Изначально скрываем меню
+    mobileMenu.classList.add('hidden');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+    });
+
     </script>
 @endsection

@@ -20,14 +20,11 @@
 
     <main class="flex-grow container mx-auto px-8 py-4">
 
-        <!-- Правая часть: Google Карта -->
+        <!-- Яндекс Карта -->
         <div class="w-full bg-white shadow-md rounded-lg p-6">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4 font-playfair">Мы на карте</h2>
             <div class="rounded-lg overflow-hidden shadow-md">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21788.942494837045!2d104.27099974899764!3d52.28778841444497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5da82925a7a79d0d%3A0x2d40ef87449a3a59!2z0IrRg9GA0LzRi9C60LAg0JrQvtC80LXRgNCw0L3QuNGG0LAg0J7Qv9C40L3RgdGC0Lg!5e0!3m2!1sru!2sru!4v1714737228690!5m2!1sru!2sru"
-                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div id="map" style="width: 100%; height: 450px"></div>
             </div>
             <div class="mt-4">
                 <h2 class="text-2xl font-semibold text-gray-800 mb-6 font-playfair">Контактная информация</h2>
@@ -48,6 +45,36 @@
                 </ul>
             </div>
         </div>
-
     </main>
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        
+        function init() {
+            var myMap = new ymaps.Map("map", {
+                center: [52.283373, 104.281376], // Координаты центра карты
+                zoom: 17 // Масштаб карты
+            });
+            
+            var myPlacemark = new ymaps.Placemark([52.283373, 104.281376], {
+                hintContent: 'Магазин OnlyGames',
+                balloonContent: 'г. Иркутск, ул. Ленина, 1'
+            });
+            
+            myMap.geoObjects.add(myPlacemark);
+        }
+
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        // Изначально скрываем меню
+        mobileMenu.classList.add('hidden');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+            mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+        });
+    </script>
+
 @endsection

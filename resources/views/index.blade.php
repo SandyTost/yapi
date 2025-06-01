@@ -19,7 +19,7 @@
                         с проверенными поставщиками, контролируем качество каждой партии и используем специальные
                         технологии, чтобы отобрать только лучшие чайные листья для вашего наслаждения.
                     </p>
-                    <a href="catalog.html"
+                   <a href="{{ route('catalog') }}"
                         class="inline-block px-8 py-4 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300">
                         Перейти в каталог
                     </a>
@@ -99,29 +99,40 @@
 
         <h2 class="text-4xl font-bold text-center text-gray-800 uppercase font-playfair">Новости</h2>
 
-        <section class="py-16">
-            <div class="container mx-auto px-7">
-
-                <div class="container mx-auto">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        @foreach ($randomNews as $item)
-                            <!-- Маленькая карточка 1 -->
-                            <div class="relative">
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="Маленький продукт 1"
-                                    class="w-full h-48 object-cover rounded-lg">
-                                <div
-                                    class="absolute bottom-0 left-0 p-4 w-full flex justify-between items-center bg-black bg-opacity-50 rounded-bl-lg rounded-br-lg">
-                                    <span class="text-white text-1xl font-playfair">{{ $item->title }}</span>
-                                    <a href="{{ route('news') }}">
-                                        <button
-                                            class="py-2 px-5 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300 w-full">Подробнее</button>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+       <section class="py-16">
+    <div class="container mx-auto px-7">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @foreach ($randomNews->take(3) as $item) <!-- Только первые 3 элемента -->
+            <!-- Ваша существующая карточка новости -->
+            <div class="relative h-96">
+                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}"
+                    class="w-full h-full object-cover rounded-lg">
+                <div class="absolute bottom-0 left-0 p-4 w-full flex justify-between items-center bg-black bg-opacity-50 rounded-bl-lg rounded-br-lg">
+                    <span class="text-white text-xl font-playfair">{{ $item->title }}</span>
+                    <a href="{{ route('news') }}">
+                        <button class="py-2 px-5 bg-green-700 hover:bg-green-800 text-white rounded-md transition-colors duration-300">
+                            Подробнее
+                        </button>
+                    </a>
                 </div>
             </div>
-        </section>
+        @endforeach
+    </div>
+</div>
+</section>
     </main>
+
+    <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    // Изначально скрываем меню
+    mobileMenu.classList.add('hidden');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+    });
+    </script>
+
 @endsection

@@ -59,7 +59,7 @@ class ProductController extends Controller
         }
 
         // Получаем отфильтрованные товары с пагинацией
-        $products = $query->paginate(12);
+        $products = $query->paginate(6)->appends($request->query());
 
         // Загружаем все данные для фильтров
         $teaTypes = TeaType::all();
