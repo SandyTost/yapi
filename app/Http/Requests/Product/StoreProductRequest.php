@@ -12,10 +12,12 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'weight_grams' => ['nullable', 'integer', 'min:1'],
+            'stock_quantity' => ['required', 'integer', 'min:0'],
             'name' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string'],
             'image' => ['required', 'image', 'max:2048'],
-            'price' => ['required', 'integer', 'min:0'],
+            'price' => ['required', 'numeric', 'min:0'],
             'tea_type_id' => ['required', 'exists:tea_types,id'],
             'origin_region_id' => ['required', 'exists:origin_regions,id'],
             'tea_variety_id' => ['required', 'exists:tea_varieties,id'],
@@ -45,7 +47,11 @@ class StoreProductRequest extends FormRequest
             'fermentation_degree_id.required' => 'Выберите степень ферментации',
             'fermentation_degree_id.exists' => 'Выбранная степень не существует',
             'storage.required' => 'Укажите условие хранения',
+            'weight_grams.integer' => 'Вес должен быть целым числом',
+            'weight_grams.min' => 'Вес должен быть положительным числом',
+            'stock_quantity.required' => 'Количество товара обязательно для заполнения',
+            'stock_quantity.integer' => 'Количество должно быть целым числом',
+            'stock_quantity.min' => 'Количество не может быть отрицательным',
         ];
     }
-
 }

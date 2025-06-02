@@ -12,7 +12,18 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_method' => 'required|in:card,cash',
+            'payment_method' => ['required', 'in:card,cash'],
+            'delivery_address_id' => ['required', 'exists:delivery_addresses,id'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'payment_method.required' => 'Выберите способ оплаты',
+            'payment_method.in' => 'Недопустимый способ оплаты',
+            'delivery_address_id.required' => 'Выберите адрес доставки',
+            'delivery_address_id.exists' => 'Выбранный адрес не существует',
         ];
     }
 }

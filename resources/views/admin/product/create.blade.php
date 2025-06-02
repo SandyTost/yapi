@@ -4,12 +4,12 @@
     <div class="container mx-auto px-4 p-4">
         <div class="w-full p-4 flex items-center justify-between">
             <a href="{{ route('admin.index') }}"
-               class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-all duration-300">
-   <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-      fill="currentColor" aria-hidden="true">
-      <path fill-rule="evenodd"
-         d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-         clip-rule="evenodd" />
+                class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-all duration-300">
+                <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 В админ-панель
             </a>
@@ -105,10 +105,28 @@
                         </select>
                     </div>
 
+                    <!-- Вес в граммах -->
+                    <div class="mb-4">
+                        <label for="weight_grams" class="block text-gray-700 text-sm font-bold mb-2">Вес (в
+                            граммах):</label>
+                        <input type="number" id="weight_grams" name="weight_grams" min="1"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Введите вес товара в граммах">
+                    </div>
+
+                    <!-- Количество на складе -->
+                    <div class="mb-4">
+                        <label for="stock_quantity" class="block text-gray-700 text-sm font-bold mb-2">Количество на
+                            складе:</label>
+                        <input type="number" id="stock_quantity" name="stock_quantity" min="0"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Введите количество товара на складе" value="0">
+                    </div>
+
                     <!-- Цена -->
                     <div class="mb-4">
                         <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Цена:</label>
-                        <input type="number" id="price" name="price"
+                        <input type="number" id="price" name="price" min="1" step="0.01"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Введите цену товара">
                     </div>
@@ -127,6 +145,24 @@
     </main>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const numberInputs = document.querySelectorAll('input[type="number"]');
+
+            numberInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value < 0) {
+                        this.value = '';
+                    }
+                });
+
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+
         function previewImage(event) {
             const reader = new FileReader();
             reader.onload = function() {
@@ -137,16 +173,15 @@
             reader.readAsDataURL(event.target.files[0]);
         }
 
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-    // Изначально скрываем меню
-    mobileMenu.classList.add('hidden');
+        // Изначально скрываем меню
+        mobileMenu.classList.add('hidden');
 
-    menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
-        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
-    });
-
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+            mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+        });
     </script>
 @endsection

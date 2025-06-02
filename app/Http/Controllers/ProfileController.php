@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use App\Models\DeliveryAddress;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+use Log;
 
 class ProfileController extends Controller
 {
@@ -46,38 +47,41 @@ class ProfileController extends Controller
     /**
      * Обновление информации профиля
      */
+    /**
+     * Обновление информации профиля
+     */
     public function update(ProfileUpdateRequest $request)
     {
         $user = $request->user();
         $data = $request->validated();
 
-        // Очищаем номер телефона от всех символов, кроме цифр
         $phone = preg_replace('/\D/', '', $data['phone']);
 
         try {
-            // Обновление основных данных пользователя
             $user->update([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'phone' => $phone, // очищенный номер
+                'phone' => $phone,
             ]);
 
-            // Обновление или создание адреса доставки
             DB::transaction(function () use ($user, $data) {
-                $currentAddress = $user->deliveryAddress;
+                // Получаем последний адрес пользователя
+                $currentAddress = $user->deliveryAddresses()->latest()->first();
 
                 if ($currentAddress) {
                     $hasOrders = $currentAddress->orders()->exists();
 
                     if ($hasOrders) {
-                        // Если адрес уже использовался — создаём новый
+                        // Адрес использовался — создаём новый
                         $newAddress = DeliveryAddress::create([
                             'user_id' => $user->id,
                             'street' => $data['street'],
                             'city' => $data['city'],
                             'postal_code' => $data['postal_code'],
                         ]);
-                        $user->deliveryAddress()->associate($newAddress); // Привязываем новый адрес
+
+                        // Обновляем связь в модели User, чтобы она указывала на новый адрес
+                        $user->refresh();
                     } else {
                         // Иначе обновляем существующий
                         $currentAddress->update([
@@ -87,7 +91,7 @@ class ProfileController extends Controller
                         ]);
                     }
                 } else {
-                    // Если адреса не было — создаём новый
+                    // Нет адреса — создаём
                     DeliveryAddress::create([
                         'user_id' => $user->id,
                         'street' => $data['street'],
@@ -98,7 +102,8 @@ class ProfileController extends Controller
             });
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Ошибка при обновлении информаии');
+            \Log::error('Ошибка при обновлении профиля: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Ошибка при обновлении информации');
         }
 
         return redirect()->back()->with('success', 'Профиль обновлён');

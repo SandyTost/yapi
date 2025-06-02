@@ -111,6 +111,8 @@ class ProductController extends Controller
             'tea_variety_id' => $validated['tea_variety_id'],
             'fermentation_degree_id' => $validated['fermentation_degree_id'],
             'storage_condition_id' => $storageCondition->id,
+            'weight_grams' => $validated['weight_grams'] ?? null,
+            'stock_quantity' => $validated['stock_quantity'],
         ]);
 
         return redirect()->route('admin.index')->with('success', 'Товар успешно добавлен');

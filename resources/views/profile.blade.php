@@ -6,11 +6,11 @@
         <div class="w-full p-4 flex items-center justify-between">
             <a href="{{ route('index') }}"
                 class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-all duration-300">
-   <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-      fill="currentColor" aria-hidden="true">
-      <path fill-rule="evenodd"
-         d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-         clip-rule="evenodd" />
+                <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 Вернуться на главную
             </a>
@@ -211,8 +211,7 @@
                                             {{ $order->created_at->format('d.m.Y') }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                                            <span
-                                                class="font-medium">{{ number_format($order->total_amount, 0, ',', ' ') }}
+                                            <span class="font-medium">{{ $order->total_amount }}
                                                 ₽</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
@@ -267,7 +266,7 @@
                                                                 @endif
                                                             </p>
                                                             <p><span class="text-gray-500">Общая сумма:</span> <span
-                                                                    class="font-medium">{{ number_format($order->total_amount, 0, ',', ' ') }}
+                                                                    class="font-medium">{{ $order->total_amount }}
                                                                     ₽</span></p>
                                                         </div>
                                                     </div>
@@ -306,7 +305,7 @@
                                                                     </td>
                                                                     <td
                                                                         class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">
-                                                                        {{ number_format($item->price, 0, ',', ' ') }} ₽
+                                                                        {{ $item->price }} ₽
                                                                     </td>
                                                                     <td
                                                                         class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">
@@ -314,7 +313,7 @@
                                                                     </td>
                                                                     <td
                                                                         class="px-4 py-2 whitespace-nowrap text-sm text-gray-700">
-                                                                        {{ number_format($item->price * $item->quantity, 0, ',', ' ') }}
+                                                                        {{ $item->price * $item->quantity }}
                                                                         ₽
                                                                     </td>
                                                                 </tr>
@@ -331,7 +330,7 @@
                                                                 </td>
                                                                 <td
                                                                     class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-700">
-                                                                    {{ number_format($order->total_amount, 0, ',', ' ') }}
+                                                                    {{ $order->total_amount }}
                                                                     ₽
                                                                 </td>
                                                             </tr>
@@ -370,16 +369,16 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/inputmask/dist/inputmask.min.js"></script>
     <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-    // Изначально скрываем меню
-    mobileMenu.classList.add('hidden');
+        // Изначально скрываем меню
+        mobileMenu.classList.add('hidden');
 
-    menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
-        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
-    });
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+            mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+        });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

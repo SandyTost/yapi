@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Order, OrderItem};
+use App\Models\{Order, OrderItem, CartItem, Product};
 use App\Http\Requests\Order\StoreOrderRequest;
+use App\Models\DeliveryAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,12 +16,26 @@ class OrderController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $delivery = $user->deliveryAddress;
 
-        $cart = $user->cart()->with('items.product')->first();
+        // Получаем все адреса пользователя
+        $deliveryAddresses = $user->deliveryAddresses()->get();
+
+        // Текущий адрес (последний или указанный как основной)
+        $currentDelivery = $user->deliveryAddress;
+
+        $cartItems = CartItem::where('user_id', $user->id)
+            ->with('product')
+            ->get();
+
+        $total = $cartItems->sum(function ($item) {
+            return $item->product->price * $item->quantity;
+        });
+
         return view('checkout', [
-            'cart' => $cart,
-            'delivery' => $delivery
+            'cartItems' => $cartItems,
+            'total' => $total,
+            'deliveryAddresses' => $deliveryAddresses,
+            'currentDelivery' => $currentDelivery
         ]);
     }
 
@@ -30,40 +45,71 @@ class OrderController extends Controller
     public function store(StoreOrderRequest $request)
     {
         $user = auth()->user();
-        $cart = $user->cart;
 
-        if (!$user->deliveryAddress || !$cart || $cart->items->isEmpty()) {
-            return redirect()->back()->withErrors('Доставка или корзина не заполнены.');
+        $cartItems = CartItem::where('user_id', $user->id)
+            ->with('product')
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->back()->withErrors(['cart' => 'Ваша корзина пуста.']);
         }
+
+        // Проверяем выбранный адрес доставки
+        $deliveryAddressId = $request->delivery_address_id;
+        $deliveryAddress = DeliveryAddress::where('id', $deliveryAddressId)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (!$deliveryAddress) {
+            return redirect()->back()->withErrors(['delivery' => 'Выберите адрес доставки.']);
+        }
+
+        // Проверка наличия товаров на складе
+        foreach ($cartItems as $item) {
+            if (!$item->product) {
+                return redirect()->back()->withErrors(['product' => 'Один из товаров в корзине больше не доступен.']);
+            }
+
+            if ($item->quantity > $item->product->stock_quantity) {
+                return redirect()->back()->withErrors(['stock' => "Товар \"{$item->product->name}\" доступен только в количестве {$item->product->stock_quantity} шт."]);
+            }
+        }
+
         DB::beginTransaction();
         try {
             // Создание заказа
             $order = Order::create([
                 'user_id' => $user->id,
-                'delivery_address_id' => $user->deliveryAddress->id,
+                'delivery_address_id' => $deliveryAddress->id,
                 'payment_method' => $request->payment_method,
-                'total_amount' => $cart->items->sum(fn ($item) => $item->product->price * $item->quantity),
+                'total_amount' => $cartItems->sum(fn($item) => $item->product->price * $item->quantity),
                 'status' => 'pending',
             ]);
 
-            // Добавление товаров
-            foreach ($cart->items as $item) {
+            // Добавление товаров в заказ и уменьшение количества на складе
+            foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'price' => $item->product->price,
                     'quantity' => $item->quantity,
                 ]);
+
+                // Уменьшаем количество товара на складе
+                $item->product->decrement('stock_quantity', $item->quantity);
             }
 
             // Очистить корзину
-            $cart->items()->delete();
+            CartItem::where('user_id', $user->id)->delete();
 
             DB::commit();
-            return view('thankyou', compact('order'))->with('success', 'Заказ успешно оформлен.');
+
+            return redirect()->route('thankyou', $order->id)->with('success', 'Заказ успешно оформлен.');
+
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors('Ошибка при оформлении заказа: ' . $e->getMessage());
+            \Log::error('Ошибка при создании заказа: ' . $e->getMessage());
+            return back()->withErrors(['order' => 'Ошибка при оформлении заказа. Попробуйте еще раз.']);
         }
     }
 
@@ -112,7 +158,6 @@ class OrderController extends Controller
 
         return view('admin.orders.show', compact('order'));
     }
-
 
     /**
      * Обновление статуса заказа

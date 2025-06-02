@@ -41,31 +41,31 @@ Route::middleware(IsAdmin::class)->group(function () {
     });
 
     Route::controller(TeaTypeController::class)->group(function () {
-        Route::post('/type','store')->name('type.store');
+        Route::post('/type', 'store')->name('type.store');
         Route::delete('/type/{teaType}/destroy', 'destroy')->name('type.destroy');
         Route::patch('/type/{teaType}/update', 'update')->name('type.update');
-        Route::post('/type/{teaType}/restore','restore')->name('type.restore');
+        Route::post('/type/{teaType}/restore', 'restore')->name('type.restore');
     });
 
     Route::controller(OriginRegionController::class)->group(function () {
-        Route::post('/region','store')->name('region.store');
-        Route::delete('/region/{originRegion}/destroy','destroy')->name('region.destroy');
-        Route::patch('/region/{originRegion}/update','update')->name('region.update');
-        Route::post('/region/{originRegion}/restore','restore')->name('region.restore');
+        Route::post('/region', 'store')->name('region.store');
+        Route::delete('/region/{originRegion}/destroy', 'destroy')->name('region.destroy');
+        Route::patch('/region/{originRegion}/update', 'update')->name('region.update');
+        Route::post('/region/{originRegion}/restore', 'restore')->name('region.restore');
     });
 
     Route::controller(TeaVarietyController::class)->group(function () {
-        Route::post('/variety','store')->name('variety.store');
-        Route::delete('/variety/{teaVariety}/destroy','destroy')->name('variety.destroy');
-        Route::patch('/variety/{teaVariety}/update','update')->name('variety.update');
-        Route::post('/variety/{teaVariety}/restore','restore')->name('variety.restore');
+        Route::post('/variety', 'store')->name('variety.store');
+        Route::delete('/variety/{teaVariety}/destroy', 'destroy')->name('variety.destroy');
+        Route::patch('/variety/{teaVariety}/update', 'update')->name('variety.update');
+        Route::post('/variety/{teaVariety}/restore', 'restore')->name('variety.restore');
     });
 
     Route::controller(FermentationDegreeController::class)->group(function () {
-        Route::post('/fermentation','store')->name('fermentation.store');
-        Route::delete('/fermentation/{fermentationDegree}/destroy','destroy')->name('fermentation.destroy');
-        Route::patch('/fermentation/{fermentationDegree}/update','update')->name('fermentation.update');
-        Route::post('/fermentation/{fermentationDegree}/restore','restore')->name('fermentation.restore');
+        Route::post('/fermentation', 'store')->name('fermentation.store');
+        Route::delete('/fermentation/{fermentationDegree}/destroy', 'destroy')->name('fermentation.destroy');
+        Route::patch('/fermentation/{fermentationDegree}/update', 'update')->name('fermentation.update');
+        Route::post('/fermentation/{fermentationDegree}/restore', 'restore')->name('fermentation.restore');
     });
 
     Route::controller(ProductController::class)->group(function () {
@@ -92,8 +92,9 @@ Route::middleware('auth')->group(function () {
     Route::controller(CartController::class)->group(function () {
         Route::get('/cart', 'index')->name('cart.index');
         Route::post('/cart/add/{product}', 'store')->name('cart.store');
-        Route::patch('/cart/update/{item}', 'update')->name('cart.update');
-        Route::delete('/cart/remove/{item}', 'destroy')->name('cart.remove');
+        Route::patch('/cart/update/{cartItem}', 'update')->name('cart.update');
+        Route::delete('/cart/remove/{cartItem}', 'destroy')->name('cart.remove');
+        Route::delete('/cart/clear-unavailable', 'clearUnavailable')->name('cart.clear-unavailable');
     });
     Route::controller(OrderController::class)->group(function () {
         Route::get('/order', 'index')->name('order.index');
@@ -104,4 +105,4 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

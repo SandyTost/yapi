@@ -41,13 +41,18 @@ class User extends Authenticatable
     // Связь с адресом доставки
     public function deliveryAddress()
     {
-        return $this->hasOne(DeliveryAddress::class);
+        return $this->hasOne(DeliveryAddress::class)->latest();
+    }
+
+    public function deliveryAddresses()
+    {
+        return $this->hasMany(DeliveryAddress::class);
     }
 
     // Связь с корзиной
-    public function cart()
+    public function cartItems()
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasMany(CartItem::class);
     }
 
     // Связь с заказами

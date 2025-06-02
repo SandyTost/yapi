@@ -5,11 +5,11 @@
         <div class="w-full p-4 flex items-center justify-between">
             <a href="{{ route('catalog') }}"
                 class="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-green-700 hover:bg-green-800 text-white rounded-md transition-all duration-300">
-   <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-      fill="currentColor" aria-hidden="true">
-      <path fill-rule="evenodd"
-         d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-         clip-rule="evenodd" />
+                <svg class="-ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                    fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                        d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                        clip-rule="evenodd" />
                 </svg>
                 Вернуться в каталог
             </a>
@@ -63,6 +63,21 @@
                                 <span class="font-medium">Степень ферментации:</span>
                                 <span>{{ $product->fermentationDegree->name ?? 'Не указана' }}</span>
                             </li>
+                            <li class="text-gray-700 mb-1 flex items-center justify-between">
+                                <span class="font-medium">Вес:</span>
+                                <span>{{ $product->weight_grams ? $product->weight_grams . ' г' : 'Не указан' }}</span>
+                            </li>
+                            <li class="text-gray-700 mb-1 flex items-center justify-between">
+                                <span class="font-medium">Наличие:</span>
+                                <span
+                                    class="{{ $product->stock_quantity > 0 ? 'text-green-600' : 'text-red-600' }} font-medium">
+                                    @if ($product->stock_quantity > 0)
+                                        В наличии ({{ $product->stock_quantity }} шт.)
+                                    @else
+                                        Нет в наличии
+                                    @endif
+                                </span>
+                            </li>
                         </ul>
                     </div>
 
@@ -84,16 +99,15 @@
     </main>
 
     <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-    // Изначально скрываем меню
-    mobileMenu.classList.add('hidden');
+        // Изначально скрываем меню
+        mobileMenu.classList.add('hidden');
 
-    menuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
-        mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
-    });
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden'); // Скрываем/Показываем меню
+            mobileMenu.classList.toggle('is-active'); // Запускаем анимацию
+        });
     </script>
-    
 @endsection

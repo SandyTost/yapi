@@ -2,23 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Cart, CartItem};
+use App\Models\{Product, CartItem};
 use App\Http\Requests\Cart\{StoreCartRequest, UpdateCartRequest};
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     /**
-     * Открытие коризны
+     * Открытие корзины
      */
     public function index()
     {
-        $user = auth()->user();
+        $cartItems = CartItem::where('user_id', auth()->id())
+            ->with([
+                'product' => function ($query) {
+                    $query->withTrashed(); // Загружаем и мягко удаленные товары
+                }
+            ])
+            ->get();
 
-        $cart = $user->cart()->with('items.product')->first();
+        $total = $cartItems->sum(function ($item) {
+            // Считаем только доступные товары
+            return $item->product && !$item->product->trashed()
+                ? $item->product->price * $item->quantity
+                : 0;
+        });
 
-        return view('cart', [
-            'cart' => $cart,
-        ]);
+        // Проверяем есть ли недоступные товары
+        $hasUnavailableItems = $cartItems->contains(function ($item) {
+            return !$item->product || $item->product->trashed();
+        });
+
+        return view('cart', compact('cartItems', 'total', 'hasUnavailableItems'));
     }
 
     /**
@@ -26,22 +41,31 @@ class CartController extends Controller
      */
     public function store(StoreCartRequest $request)
     {
-        $user = auth()->user();
         $validated = $request->validated();
+        $productId = $validated['product_id'];
+        $quantity = $validated['quantity'] ?? 1;
 
-        $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+        $product = Product::findOrFail($productId);
 
-        $item = CartItem::where('cart_id', $cart->id)
-            ->where('product_id', $validated['product_id'])
+        if ($product->stock_quantity < $quantity) {
+            return back()->with('error', 'Недостаточно товара на складе!');
+        }
+
+        $cartItem = CartItem::where('user_id', auth()->id())
+            ->where('product_id', $productId)
             ->first();
 
-        if ($item) {
-            $item->increment('quantity', $validated['quantity'] ?? 1);
+        if ($cartItem) {
+            $newQuantity = $cartItem->quantity + $quantity;
+            if ($product->stock_quantity < $newQuantity) {
+                return back()->with('error', 'Недостаточно товара на складе!');
+            }
+            $cartItem->increment('quantity', $quantity);
         } else {
             CartItem::create([
-                'cart_id' => $cart->id,
-                'product_id' => $validated['product_id'],
-                'quantity' => $validated['quantity'] ?? 1,
+                'user_id' => auth()->id(),
+                'product_id' => $productId,
+                'quantity' => $quantity,
             ]);
         }
 
@@ -49,30 +73,65 @@ class CartController extends Controller
     }
 
     /**
-     * Обновление кол-ва товара в корзине
+     * Обновление количества
      */
-    public function update(UpdateCartRequest $request, CartItem $item)
+    public function update(Request $request, CartItem $cartItem)
     {
-        $validated = $request->validated();
+        // Загружаем связь product
+        $cartItem->load('product');
 
         if ($request->input('action') === 'increment') {
-            $item->increment('quantity');
-        } elseif ($request->input('action') === 'decrement' && $item->quantity > 1) {
-            $item->decrement('quantity');
-        } elseif (isset($validated['quantity'])) {
-            $item->update(['quantity' => $validated['quantity']]);
+            if ($cartItem->product->stock_quantity > $cartItem->quantity) {
+                $cartItem->increment('quantity');
+            } else {
+                return back()->with('error', 'Недостаточно товара на складе!');
+            }
+        } elseif ($request->input('action') === 'decrement') {
+            if ($cartItem->quantity > 1) {
+                $cartItem->decrement('quantity');
+            } else {
+                $cartItem->delete();
+                return back()->with('success', 'Товар удалён из корзины!');
+            }
         }
 
-        return back()->with('success', 'Количество товара обновлено!');
+        return back()->with('success', 'Количество обновлено!');
     }
 
     /**
-     * Удаление товара из корзины
+     * Удаление товара
      */
-    public function destroy(CartItem $item)
+    public function destroy(CartItem $cartItem)
     {
-        $item->delete();
+        if ($cartItem->user_id !== auth()->id()) {
+            abort(403);
+        }
 
+        $cartItem->delete();
         return back()->with('success', 'Товар удалён из корзины!');
+    }
+
+    /**
+     * Очистка корзины (при оформлении заказа)
+     */
+    public function clear()
+    {
+        CartItem::where('user_id', auth()->id())->delete();
+        return back()->with('success', 'Корзина очищена!');
+    }
+
+    /**
+     * Очистка недоступных товаров
+     */
+    public function clearUnavailable()
+    {
+        $deletedCount = CartItem::where('user_id', auth()->id())
+            ->whereHas('product', function ($query) {
+                $query->onlyTrashed();
+            })
+            ->orWhereDoesntHave('product')
+            ->delete();
+
+        return back()->with('success', "Удалено недоступных товаров: {$deletedCount}");
     }
 }
