@@ -21,10 +21,29 @@ class MainController extends Controller
     }
 
     // Отображение страницы новостей
-    public function news()
+
+    public function news(Request $request)
     {
-        $news = News::with('user')->get();
-        return view('news', compact('news'));
+        $sortBy = $request->get('sort', 'created_at');
+        $sortOrder = $request->get('order', 'desc');
+
+        // Валидация параметров сортировки
+        $allowedSortFields = ['created_at', 'title', 'updated_at'];
+        $allowedSortOrders = ['asc', 'desc'];
+
+        if (!in_array($sortBy, $allowedSortFields)) {
+            $sortBy = 'created_at';
+        }
+
+        if (!in_array($sortOrder, $allowedSortOrders)) {
+            $sortOrder = 'desc';
+        }
+
+        $news = News::with('user')
+            ->orderBy($sortBy, $sortOrder)
+            ->get();
+
+        return view('news', compact('news', 'sortBy', 'sortOrder'));
     }
 
     // Отображение страницы 'О нас'

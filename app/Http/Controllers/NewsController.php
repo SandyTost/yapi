@@ -10,7 +10,8 @@ use App\Models\News;
 
 class NewsController extends Controller
 {
-    public function create() {
+    public function create()
+    {
         return view('admin.news.create');
     }
 
@@ -28,18 +29,21 @@ class NewsController extends Controller
         return redirect()->route('news')->with('success', 'Новость успешно добавлена!');
     }
 
-    public function destroy(News $news) {
+    public function destroy(News $news)
+    {
         $news->delete();
         return redirect()->route('news')->with('success', 'Новость успешно удалена!');
     }
 
-    public function edit(News $news) {
+    public function edit(News $news)
+    {
         return view('admin.news.edit', [
             'news' => $news,
         ]);
     }
 
-    public function update(Request $request, News $news) {
+    public function update(Request $request, News $news)
+    {
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',

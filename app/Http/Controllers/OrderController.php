@@ -104,7 +104,7 @@ class OrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('thankyou', $order->id)->with('success', 'Заказ успешно оформлен.');
+            return view('thankyou', ['order' => $order])->with('success', 'Заказ успешно оформлен.');
 
         } catch (\Exception $e) {
             DB::rollBack();

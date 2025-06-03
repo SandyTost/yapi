@@ -160,9 +160,13 @@ class ProductController extends Controller
 
         // Обработка изображения
         if ($request->hasFile('image')) {
-            // Сохраняем изображение в директории "product" в публичном хранилище
+            // Удаляем старое изображение, если оно существует
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
+
+            // Сохраняем новое изображение
             $imagePath = $request->file('image')->store('product', 'public');
-            // Обновляем поле изображения в базе данных
             $validated['image'] = 'storage/' . $imagePath;
         }
 
@@ -171,11 +175,12 @@ class ProductController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'price' => $validated['price'],
-            'tea_type_id' => $validated['tea_type'],
-            'origin_region_id' => $validated['origin'],
-            'tea_variety_id' => $validated['sort'],
-            'fermentation_degree_id' => $validated['fermentation'],
-            'storage_condition_id' => $validated['storage'],
+            'weight_grams' => $validated['weight_grams'],
+            'stock_quantity' => $validated['stock_quantity'],
+            'tea_type_id' => $validated['tea_type_id'],
+            'origin_region_id' => $validated['origin_region_id'],
+            'tea_variety_id' => $validated['tea_variety_id'],
+            'fermentation_degree_id' => $validated['fermentation_degree_id'],
             'image' => $validated['image'] ?? $product->image,
         ]);
 
